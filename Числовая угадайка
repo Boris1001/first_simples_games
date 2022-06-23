@@ -1,0 +1,163 @@
+import random
+ 
+# --------------------------------------
+# Функция ввода границы генерируемого числа
+
+
+def enter_border():                                    
+    flag1 = False
+    while flag1 == False:
+        num = input()
+        if num.isdigit() == False:
+            print('Можно только циферку :-)?')
+        if num.isdigit():
+            return int(num)
+            flag1 = True     
+
+# --------------------------------------
+# Функция проверки числа пользователя на диапозон значений и принадлежность к int
+
+def is_valid(s, border):
+    if s.isdigit():
+        return 1 <= int(s) <= border
+    else:
+      return False
+
+# + --------------------------------------
+#  Функция задания границы случайного числа
+ 
+def create_border_digit():
+    print()
+    print('Хотите задать границу угадайки? (да/нет)')
+    print()
+    flag = False
+    while flag == False:
+        s = input().lower()
+        if 'да' in s:
+            print('')
+            print('Введите число больше 0!')
+            print('')
+            num_b = enter_border()
+            return int(num_b)
+            flag = True
+        elif 'нет' in s:
+            print('')
+            print('Тогда приступим!')
+            print('')
+            return 100
+            flag = True
+        else:
+            print('Понимаю только "да" или "нет"')
+            flag = False
+
+
+# --------------------------------------
+# Функция создания случайного числа
+
+def create_digit(border):
+    target = random.randint(1, border)                # Загаданное число
+    return target
+
+#create_digit()
+
+
+# --------------------------------------
+# Функция ввода числа пользователем
+
+
+def enter(border):
+    flag1 = False
+    while flag1 == False:
+        num = input()                                 # Введённое число
+        if is_valid(num, border) == False:
+            print(f'А может быть все-таки введем целое число от 1 до {border}?')
+        if is_valid(num, border) == True:
+            return int(num)
+            flag1 = True
+
+
+# --------------------------------------
+# Сравнение введёного числа с загаданным
+
+def compare(m, border):
+    
+    flag = False
+    counter = 0                                    # счётчик повторений
+    print()
+    print('Отлично! Начали играть!')
+    print()
+    print('Теперь угадайте загаданное число.')
+    print()
+    print(f'Введите число от 1 до {border} :-)')
+    print()
+    while flag == False:
+        n = enter(border)        
+        counter += 1
+        if n < m:
+            print()
+            print('Ваше число меньше загаданного, попробуйте еще разок')
+            print()
+        if n > m:
+            print()
+            print('Ваше число больше загаданного, попробуйте еще разок')
+            print()
+
+        if n == m:
+            if counter == 1 or (counter > 20 and counter % 10 == 1):
+                print()
+                print()
+                print(f'Вы угадали с {counter} попытки, поздравляем!')
+                print()
+            else:
+                print()
+                print(f'Вы угадали с {counter} попыток, поздравляем!')
+            print()
+            print('Хотите сыграть ещё?')
+            flag = True
+
+# --------------------------------------
+# Функция повтора
+
+def repeat():
+    print()
+    print('Хотите сыграть ещё? Введите "да"')
+    print()
+    print('Надоело? Введите "нет"')
+    print()
+    flag3 = False
+    while flag3 == False:
+        s = input().lower()
+        if 'да' in s:
+            print('')
+            print('Понеслась!')
+            print('')
+            return False
+            flag3 = True
+        elif 'нет' in s:
+            print('')
+            print('Спасибо, что играли в числовую угадайку. Еще увидимся...')
+            print('')
+            return True
+            flag3 = True
+        else:
+            print('Понимаю только "да" или "нет"')
+            
+
+# --------------------------------------
+# Сборка
+
+def guessing_game():
+    flag = False
+    print("*" * 40)
+    print('* Добро пожаловать в числовую угадайку! *')
+    print("*" * 40)
+    while flag == False:
+        border = create_border_digit()
+        target = create_digit(border)
+        compare(target, border)
+        flag = repeat()
+
+
+# --------------------------------------
+guessing_game()
+
